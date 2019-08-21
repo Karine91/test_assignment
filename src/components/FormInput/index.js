@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import styles from './styles.module.scss'
 
-const FormInput = ({ type = 'text', value, name, placeholer = '', onChange }) => {
+const FormInput = ({ type = 'text', value, name, placeholer = '', onChange, ...rest }) => {
     return (
         <div className={styles.FormInputWrapper}>
-            <input className={styles.FormInput} type={type} placeholder={placeholer} value={value} name={name} onChange={onChange}/>
+            <input {...rest} className={styles.FormInput} type={type} placeholder={placeholer} value={value} name={name} onChange={onChange}/>
         </div>
     )
 }
