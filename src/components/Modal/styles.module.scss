@@ -1,0 +1,46 @@
+@import '../../styles/variables.scss';
+
+.ModalWrapper {
+    position: absolute;
+    background: rgba(#000000,.4);
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Modal {
+    background: $white;
+    width: 100%;
+    max-width: 500px;
+    border-radius: $border-radius;
+    padding: 15px;
+    position: relative;
+}
+
+.ModalHeader {
+    border-bottom: 1px solid $gray;
+    padding: 10px 0;
+}
+
+.ModalBody {
+    padding-top: 10px;
+}
+
+.ModalClose {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    transform: scaleY(0.7);
+    font-size: 20px;
+    cursor: pointer;
+    color: $gray;
+    transition: color ease .3s;
+
+    &:hover {
+        color: $dark-gray;
+    }
+}

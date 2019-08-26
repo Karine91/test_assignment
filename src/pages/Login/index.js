@@ -15,9 +15,9 @@ export class Login extends Component {
 
     componentDidMount() {
         if (this.props.isAuthenticated) {
-          this.props.history.push("/products");
+            this.props.history.push("/products");
         }
-      }
+    }
 
     onInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,15 +25,15 @@ export class Login extends Component {
     }
 
     onSubmit = (e) => {
-		e.preventDefault();
+        e.preventDefault();
 
-		const { email, password } = this.state;
+        const { email, password } = this.state;
 
-		this.props.login({
-			email,
-			password
-		});
-	}
+        this.props.login({
+            email,
+            password
+        });
+    }
 
     render() {
         const { email, password } = this.state;
@@ -44,10 +44,10 @@ export class Login extends Component {
                     <fieldset disabled={isLoading}>
                         <legend className={styles.Title}>Login</legend>
                         {errors.login && <div className={classnames([styles.Error, 'error'])}>{errors.login}</div>}
-                        <FormInput type="email" name="email" value={email} onChange={this.onInputChange} required/>
-                        <FormInput type="password" name="password" value={password} onChange={this.onInputChange} required/>
+                        <FormInput type="email" name="email" value={email} onChange={this.onInputChange} required />
+                        <FormInput type="password" name="password" value={password} onChange={this.onInputChange} required />
                         <button className={styles.Btn}>Submit</button>
-                        
+
                     </fieldset>
                     <div className={styles.Info}>Don't have an account? <Link to="/register">Register</Link></div>
                 </form>
@@ -57,13 +57,13 @@ export class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	isLoading: state.auth.isLoading,
-	isAuthenticated: !!state.auth.token,
-	errors: state.errors
+    isLoading: state.auth.isLoading,
+    isAuthenticated: !!state.auth.token,
+    errors: state.auth.errors
 });
 
 const mapDispatchToProps = {
-	login
+    login
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

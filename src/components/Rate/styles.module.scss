@@ -1,0 +1,13 @@
+@import '../../styles/variables.scss';
+
+.StarIcon {
+    width: 20px;
+    stroke: $light-gray;
+    stroke-width: 20px;
+    fill: transparent;
+    cursor: pointer
+}
+
+.StarIconFill {
+    fill: $yellow;
+}

@@ -3,11 +3,12 @@ import { LOGIN_SUCCESS, LOGIN, LOGIN_ERROR, SIGNUP, SIGNUP_SUCCESS, SIGNUP_ERROR
 
 const initialState = {
     isLoading: false,
-    token: ''
+    token: '',
+    errors: {}
 }
 
 export default (state = initialState, action) => {
-    switch(action.type){
+    switch (action.type) {
         case LOGIN:
         case SIGNUP:
             return {
@@ -22,11 +23,23 @@ export default (state = initialState, action) => {
                 isLoading: false
             }
         case LOGIN_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                errors: {
+                    ...state.errors,
+                    login: action.payload.message
+                }
+            }
         case SIGNUP_ERROR:
             return {
                 ...state,
-                isLoading: false
-            }    
+                isLoading: false,
+                errors: {
+                    ...state.errors,
+                    signup: action.payload.message
+                }
+            }
         default:
             return state;
     }

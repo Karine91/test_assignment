@@ -16,10 +16,10 @@ export class SignUp extends Component {
 	}
 
 	componentDidMount() {
-    if (this.props.isAuthenticated) {
-      this.props.history.push("/products");
-    }
-  }
+		if (this.props.isAuthenticated) {
+			this.props.history.push("/products");
+		}
+	}
 
 	onInputChange = (e) => {
 		const { name, value } = e.target;
@@ -46,8 +46,8 @@ export class SignUp extends Component {
 					<fieldset disabled={isLoading}>
 						<legend className={styles.Title}>SignUp</legend>
 						{errors.signup && <div className={classnames([styles.Error, 'error'])}>{errors.signup}</div>}
-						<FormInput type="email" name="email" value={email} onChange={this.onInputChange} required/>
-						<FormInput type="password" name="password" value={password} onChange={this.onInputChange} required/>
+						<FormInput type="email" name="email" value={email} onChange={this.onInputChange} required />
+						<FormInput type="password" name="password" value={password} onChange={this.onInputChange} required />
 						<button className={styles.Btn}>Submit</button>
 					</fieldset>
 					<div className={styles.Info}>Already have an account? <Link to="/login">Login</Link></div>
@@ -66,7 +66,7 @@ SignUp.propTypes = {
 const mapStateToProps = (state) => ({
 	isLoading: state.auth.isLoading,
 	isAuthenticated: !!state.auth.token,
-	errors: state.errors
+	errors: state.auth.errors
 });
 
 const mapDispatchToProps = {

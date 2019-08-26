@@ -1,0 +1,17 @@
+@mixin fromSmall {
+    @media (min-width: 420px) {
+      @content;
+    }
+  }
+  
+@mixin fromTablets {
+    @media (min-width: 960px) {
+        @content;
+    }
+}
+
+@mixin large {
+    @media (min-width: 1170px) {
+        @content;
+    }
+}

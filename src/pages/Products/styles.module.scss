@@ -1,0 +1,67 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/variables.scss';
+
+.productsPage {
+	padding: 30px;
+}
+
+.productsPageContent {
+   
+}
+
+.ProductsList {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.ProductItem {
+	padding:  10px;
+	border: 1px solid $light-gray;
+	border-radius: $border-radius;
+	margin: 10px;
+	cursor: pointer;
+	width: 100%;
+	transition: all ease .3s;
+   
+	@include fromSmall {
+		width: 25%;
+	}
+
+	&:hover {
+		box-shadow: 0 0 4px #ccc;
+	}
+}
+
+.ProductItemImageWrapper {
+	height: 100px;
+	overflow: hidden;
+	@include fromTablets {
+		height: 150px;
+	}
+}
+
+.ProductItemImage {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+}
+
+.ProductItemTitle {
+	text-align: center;
+	font-weight: bold;
+	margin: 10px 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ProductItemDesc {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
