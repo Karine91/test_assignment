@@ -16,4 +16,20 @@ fieldset {
 
 .pageTitle {
   padding-left: 20px;
+  margin: 0;
+}
+
+button {
+  border: none;
+    background: $dark-blue;
+    color: $white;
+    padding: 5px 10px;
+    border-radius: $border-radius;
+    cursor: pointer;
+
+    transition: transform ease .3s;
+
+    &:hover {
+        transform: translateY(1px)
+    }
 }

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import FormInput from '../../components/FormInput';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom';
+import validator from 'validator';
 
 import { register } from '../../actions/auth';
 
@@ -12,7 +13,11 @@ import styles from './styles.module.scss';
 export class SignUp extends Component {
 	state = {
 		email: '',
-		password: ''
+		password: '',
+		errors: {
+			email: '',
+			password: ''
+		}
 	}
 
 	componentDidMount() {
@@ -23,7 +28,28 @@ export class SignUp extends Component {
 
 	onInputChange = (e) => {
 		const { name, value } = e.target;
-		this.setState({ [name]: value });
+		const errors = {}
+
+		if (name === 'email') {
+			const validEmail = validator.isEmail(value);
+			if (!validEmail) {
+				errors.email = 'Email field is not valid';
+			} else {
+				errors.email = ''
+			}
+		}
+
+		if (name === 'password') {
+			const validPassword = !validator.isEmpty(value, { ignore_whitespace: true });
+
+			if (!validPassword) {
+				errors.password = 'Password field is required';
+			} else {
+				errors.password = ''
+			}
+		}
+
+		this.setState((prevState) => ({ errors: { ...prevState.errors, ...errors }, [name]: value }));
 	}
 
 	onSubmit = (e) => {
@@ -31,14 +57,29 @@ export class SignUp extends Component {
 
 		const { email, password } = this.state;
 
-		this.props.register({
-			email,
-			password
-		});
+		const validEmail = validator.isEmail(email);
+		const validPassword = !validator.isEmpty(password, { ignore_whitespace: true });
+
+		if (validEmail && validPassword) {
+			this.props.register({
+				email,
+				password
+			});
+		} else {
+			const errors = {}
+			if (!validEmail) {
+				errors.email = 'Email field is not valid';
+			}
+			if (!validPassword) {
+				errors.password = 'Password field is required';
+			}
+
+			this.setState((prevState) => ({ errors: { ...prevState.errors, ...errors } }));
+		}
 	}
 
 	render() {
-		const { email, password } = this.state;
+		const { email, password, errors: validationErrors } = this.state;
 		const { errors, isLoading } = this.props;
 		return (
 			<div className={styles.SignUp}>
@@ -46,8 +87,8 @@ export class SignUp extends Component {
 					<fieldset disabled={isLoading}>
 						<legend className={styles.Title}>SignUp</legend>
 						{errors.signup && <div className={classnames([styles.Error, 'error'])}>{errors.signup}</div>}
-						<FormInput type="email" name="email" value={email} onChange={this.onInputChange} required />
-						<FormInput type="password" name="password" value={password} onChange={this.onInputChange} required />
+						<FormInput error={validationErrors.email} type="email" name="email" value={email} onChange={this.onInputChange} />
+						<FormInput error={validationErrors.password} type="password" name="password" value={password} onChange={this.onInputChange} />
 						<button className={styles.Btn}>Submit</button>
 					</fieldset>
 					<div className={styles.Info}>Already have an account? <Link to="/login">Login</Link></div>

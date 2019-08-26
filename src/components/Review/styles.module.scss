@@ -1,3 +1,12 @@
+@import '../../styles/variables.scss';
+
+.ReviewItem {
+    border: 1px solid $gray;
+    border-radius: $border-radius;
+    margin: 10px 0;
+    padding: 10px;
+}
+
 .ReviewText {
     word-break: break-all;
 }

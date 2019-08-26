@@ -11,7 +11,7 @@ const Review = ({ data: { created_at, created_by: { username }, rate, text } }) 
         <div className={styles.ReviewItem}>
             <div className={styles.ReviewTitle}>
                 {username} - <span className={styles.ReviewDate}>{moment(created_at).format('DD/MM/YYYY')}</span>
-                <Rate currentRate={rate}></Rate>
+                <Rate disabled currentRate={rate}></Rate>
             </div>
             <div className={styles.ReviewText}>{text}</div>
         </div>

@@ -1,4 +1,14 @@
-import { GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_REVIEWS, GET_PRODUCTS_REVIEWS_ERROR, GET_PRODUCTS_REVIEWS_SUCCESS } from '../actions/types';
+import {
+    GET_PRODUCTS,
+    GET_PRODUCTS_ERROR,
+    GET_PRODUCTS_SUCCESS,
+    GET_PRODUCTS_REVIEWS,
+    GET_PRODUCTS_REVIEWS_ERROR,
+    GET_PRODUCTS_REVIEWS_SUCCESS,
+    SET_PRODUCT_REVIEW,
+    SET_PRODUCT_REVIEW_ERROR,
+    SET_PRODUCT_REVIEW_SUCCESS
+} from '../actions/types';
 import { combineReducers } from 'redux'
 
 const productsInitialState = {
@@ -13,12 +23,14 @@ const productsList = (state = productsInitialState, action) => {
                 ...state,
                 isLoading: true
             }
+
         case GET_PRODUCTS_SUCCESS: {
             return {
                 isLoading: false,
                 data: action.data
             }
         }
+
         case GET_PRODUCTS_ERROR:
             return {
                 ...state,
@@ -37,6 +49,7 @@ const reviewsInitialState = {
 const productReviews = (state = reviewsInitialState, action) => {
     switch (action.type) {
         case GET_PRODUCTS_REVIEWS:
+        case SET_PRODUCT_REVIEW:
             return {
                 ...state,
                 isLoading: true
@@ -47,7 +60,15 @@ const productReviews = (state = reviewsInitialState, action) => {
                 data: action.data
             }
         }
+        case SET_PRODUCT_REVIEW_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                data: [...state.data, action.data]
+            }
+        }
         case GET_PRODUCTS_REVIEWS_ERROR:
+        case SET_PRODUCT_REVIEW_ERROR:
             return {
                 ...state,
                 isLoading: false

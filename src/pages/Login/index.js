@@ -4,13 +4,18 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { withRouter, Link } from 'react-router-dom'
 import { login } from '../../actions/auth';
+import validator from 'validator';
 
 import styles from './styles.module.scss';
 
 export class Login extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        errors: {
+            email: '',
+            password: ''
+        }
     }
 
     componentDidMount() {
@@ -21,22 +26,58 @@ export class Login extends Component {
 
     onInputChange = (e) => {
         const { name, value } = e.target;
-        this.setState({ [name]: value });
+        const errors = {}
+
+        if (name === 'email') {
+            const validEmail = validator.isEmail(value);
+            if (!validEmail) {
+                errors.email = 'Email field is not valid';
+            } else {
+                errors.email = ''
+            }
+        }
+
+        if (name === 'password') {
+            const validPassword = !validator.isEmpty(value, { ignore_whitespace: true });
+
+            if (!validPassword) {
+                errors.password = 'Password field is required';
+            } else {
+                errors.password = ''
+            }
+        }
+
+        this.setState((prevState) => ({ errors: { ...prevState.errors, ...errors }, [name]: value }));
     }
 
     onSubmit = (e) => {
         e.preventDefault();
 
         const { email, password } = this.state;
+        const validEmail = validator.isEmail(email);
+        const validPassword = !validator.isEmpty(password, { ignore_whitespace: true });
 
-        this.props.login({
-            email,
-            password
-        });
+        if (validEmail && validPassword) {
+            this.props.login({
+                email,
+                password
+            });
+        } else {
+            const errors = {}
+            if (!validEmail) {
+                errors.email = 'Email field is not valid';
+            }
+            if (!validPassword) {
+                errors.password = 'Password field is required';
+            }
+
+            this.setState((prevState) => ({ errors: { ...prevState.errors, ...errors } }));
+        }
+
     }
 
     render() {
-        const { email, password } = this.state;
+        const { email, password, errors: validationErrors } = this.state;
         const { errors, isLoading } = this.props;
         return (
             <div className={styles.Login}>
@@ -44,8 +85,8 @@ export class Login extends Component {
                     <fieldset disabled={isLoading}>
                         <legend className={styles.Title}>Login</legend>
                         {errors.login && <div className={classnames([styles.Error, 'error'])}>{errors.login}</div>}
-                        <FormInput type="email" name="email" value={email} onChange={this.onInputChange} required />
-                        <FormInput type="password" name="password" value={password} onChange={this.onInputChange} required />
+                        <FormInput error={validationErrors.email} type="email" name="email" value={email} onChange={this.onInputChange} />
+                        <FormInput error={validationErrors.password} type="password" name="password" value={password} onChange={this.onInputChange} />
                         <button className={styles.Btn}>Submit</button>
 
                     </fieldset>

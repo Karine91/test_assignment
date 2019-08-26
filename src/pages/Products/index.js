@@ -6,6 +6,7 @@ import { getProducts } from '../../actions/products';
 
 import ProductDetails from './ProductDetails';
 import Modal from '../../components/Modal'
+import Header from '../../components/Header'
 
 import styles from './styles.module.scss';
 
@@ -56,6 +57,7 @@ class Products extends Component {
         const { products } = this.props;
         return (
             <div className={styles.productsPage}>
+                <Header></Header>
                 <h1 className="pageTitle">
                     Products
                 </h1>

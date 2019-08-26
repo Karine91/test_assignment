@@ -2,13 +2,13 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getProductsReviews } from '../../actions/products';
+import { getProductsReviews, setProductReview } from '../../actions/products';
 import ReviewItem from '../../components/Review';
 import ReviewForm from '../../components/ReviewForm'
 
 import styles from './styles.module.scss';
 
-const ProductDetails = ({ data, reviews, getProductsReviews, isAuthenticated, reviewsLoading }) => {
+const ProductDetails = ({ data, reviews, getProductsReviews, isAuthenticated, reviewsLoading, setProductReview, user }) => {
 
     const { img, title, text, id } = data;
 
@@ -25,9 +25,9 @@ const ProductDetails = ({ data, reviews, getProductsReviews, isAuthenticated, re
                 <div className={styles.ProductItemTitle}>{title}</div>
                 <div className={styles.ProductItemDesc}>{text}</div>
             </div>
-            <div>
-                <ReviewForm></ReviewForm>
-            </div>
+            {isAuthenticated && <div>
+                <ReviewForm productId={id} username={user.email} onSubmitHandler={setProductReview}></ReviewForm>
+            </div>}
             <div className={styles.Reviews}>
                 <h2>Reviews</h2>
                 {reviewsLoading ?
@@ -55,13 +55,15 @@ ProductDetails.propTypes = {
         text: PropTypes.string,
         img: PropTypes.string
     }),
-    reviewsLoading: PropTypes.bool.isRequired
+    reviewsLoading: PropTypes.bool.isRequired,
+    setProductReview: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
     isAuthenticated: !!state.auth.token,
+    user: state.auth.user,
     reviews: state.products.productReviews.data,
     reviewsLoading: state.products.productReviews.isLoading
 })
 
-export default connect(mapStateToProps, { getProductsReviews })(ProductDetails)
+export default connect(mapStateToProps, { getProductsReviews, setProductReview })(ProductDetails)

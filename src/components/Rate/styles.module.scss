@@ -8,6 +8,10 @@
     cursor: pointer
 }
 
+.StarDisabled {
+    cursor: default;
+}
+
 .StarIconFill {
     fill: $yellow;
 }
